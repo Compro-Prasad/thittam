@@ -23,12 +23,13 @@ ResourcesViewImpl::ResourcesViewImpl (
     parent->remove (*m_top_widget);
   }
 
-  this->init_toolbar (builder);
-  this->init_menu (builder);
-  this->init_tree (builder);
+  init_toolbar (builder);
+  init_menu (builder);
+  init_tree (builder);
+  init_dialogs (builder);
 
-  this->enable_add_resource (false);
-  this->enable_add_group (true);
+  enable_add_resource (false);
+  enable_add_group (true);
 }
 
 void ResourcesViewImpl::init_toolbar (Glib::RefPtr<Gtk::Builder> builder)
@@ -86,14 +87,25 @@ void ResourcesViewImpl::init_tree (Glib::RefPtr<Gtk::Builder> builder)
   top_box->show_all_children ();
 }
 
+void ResourcesViewImpl::init_dialogs (Glib::RefPtr<Gtk::Builder> builder)
+{
+  auto d1 = Gtk::Builder::create_from_resource("/ui/resource-input.glade");
+  auto d2 = Gtk::Builder::create_from_resource("/ui/resource-group-input.glade");
+  d1->get_widget ("resource-input-dialog", resource_input_dialog);
+  d2->get_widget ("group-input-dialog", group_input_dialog);
+}
+
 void ResourcesViewImpl::cb_on_add_resource_clicked (void)
 {
   m_handler->view_add_resource_clicked ();
 }
 
-void ResourcesViewImpl::cb_on_add_group_clicked(void)
+void
+ResourcesViewImpl::cb_on_add_group_clicked(void)
 {
-  m_handler->view_add_group_clicked ();
+  int x = resource_input_dialog->run();
+  Log_I << x;
+  m_handler->view_add_group_clicked();
 }
 
 void ResourcesViewImpl::cb_on_row_selected (void)

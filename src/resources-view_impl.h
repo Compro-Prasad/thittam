@@ -72,9 +72,13 @@ private:
   Gtk::MenuItem* m_menu_add_resource = nullptr;
   Gtk::MenuItem* m_menu_add_group = nullptr;
 
+  Gtk::Dialog *resource_input_dialog = nullptr;
+  Gtk::Dialog *group_input_dialog = nullptr;
+
   void init_toolbar (Glib::RefPtr<Gtk::Builder> builder);
   void init_menu (Glib::RefPtr<Gtk::Builder> builder);
   void init_tree (Glib::RefPtr<Gtk::Builder> builder);
+  void init_dialogs (Glib::RefPtr<Gtk::Builder> builder);
 
   void set_id (const Gtk::TreeRow &, const std::string &);
   void set_name (const Gtk::TreeRow &, const std::string &);
